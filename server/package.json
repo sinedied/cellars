@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "Cellars API Training",
   "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "author": "Jeremy Alles, Yohan Lasorsa",
   "license": "MIT",
   "dependencies": {

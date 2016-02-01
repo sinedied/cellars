@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var helmet = require('helmet');
 var properties = require('./package.json')
 var app = express();
 
@@ -14,12 +13,10 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 app.set('port', (process.env.PORT || 3000));
-app.set('trust proxy', true);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
-app.use(helmet());
 
 // ---------------------------------------------------------------------------
 // Internal stuff

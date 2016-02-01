@@ -30,7 +30,7 @@ var cellars = [
     id: cellarId++,
     name: "Jeremy's cellar",
     bottles: [
-      { id: bottleId++, name: "Saint Emilion", price: 19.89 }
+      { id: bottleId++, name: "Saint Emilion", price: 12.89 }
     ]
   }
 ];

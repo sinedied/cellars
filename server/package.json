@@ -1,0 +1,14 @@
+{
+  "name": "cellars",
+  "version": "2.0.0",
+  "description": "Cellars API Training",
+  "main": "server.js",
+  "author": "Jeremy Alles, Yohan Lasorsa",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "install": "^0.4.1",
+    "npm": "^3.6.0"
+  }
+}

@@ -87,16 +87,21 @@ function findBottle(id) {
   return null;
 }
 
-// Emit 404 error
+// Send a 404 error
 function notFound(res) {
   res.status(404);
   res.type('txt').send('404 not found');
 }
 
-// Send a 500 error code to a given response
+// Send a 500 error
 function invalidRequest(res) {
   res.status(500);
   res.type('txt').send('Invalid request');
+}
+
+// Send an OK response
+function responseOk(res) {
+  res.type('txt').send('ok');
 }
 
 // ---------------------------------------------------------------------------
@@ -113,6 +118,7 @@ app.get('/', function(req, res) {
 //  Resets the server data
 app.post('/api/reset', function(req, res) {
   reset();
+  responseOk();
 });
 
 // GET /api/cellars
@@ -142,6 +148,7 @@ app.delete('/api/cellars/:id', function(req, res) {
   var index = getCellarIndex(req.params.id);
   if (index >= 0) {
     cellars.splice(index, 1);
+    responseOk();
   } else {
     invalidRequest(res);
   }
@@ -179,9 +186,9 @@ app.post('/api/cellars/:id/bottles', function(req, res) {
 // DELETE /api/cellars/:id/bottles/:botleId
 //  Remove a bottle
 app.delete('/api/cellars/:id/bottles/:bottleId', function(req, res) {
-  if (req.body && req.params.id) {
+  if (req.body && req.params.id && req.params.bottleId) {
     var result = findBottle(req.params.bottleId);
-    if (result && result.cellar.id === req.params.id) {
+    if (result) {
       var cellar = result.cellar;
       cellar.bottles.splice(result.bottleIndex, 1);
       res.json(cellar);

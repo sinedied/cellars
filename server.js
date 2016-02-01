@@ -101,7 +101,7 @@ function invalidRequest(res) {
 
 // Send an OK response
 function responseOk(res) {
-  res.type('txt').send('ok');
+  res.json({ success: true });
 }
 
 // ---------------------------------------------------------------------------

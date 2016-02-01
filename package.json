@@ -1,0 +1,22 @@
+{
+  "name": "cellars",
+  "version": "2.0.0",
+  "description": "Cellars API Training",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "contributors": [
+    { "name": "Jeremy Alles" },
+    { "name": "Yohan Lasorsa" }
+  ],
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sinedied/cellars"
+  },
+  "license": "MIT"
+}

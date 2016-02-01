@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var properties = require('./package.json')
 var app = express();
 
 // Allow CORS
@@ -84,7 +85,7 @@ function invalidRequest(res) {
 // GET /
 //  Get a simple string
 app.get('/', function(req, res) {
-  res.send('Cellars API Training');
+  res.send(properties.description + ' v' + properties.version);
 });
 
 // GET /api/cellars

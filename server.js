@@ -12,6 +12,8 @@ var allowCrossDomain = function(req, res, next) {
   next();
 };
 
+app.set('port', (process.env.PORT || 3000));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
@@ -157,6 +159,6 @@ app.delete('/api/cellars/:id/bottles/:bottleId', function(req, res) {
 });
 
 // Start server
-var port = process.env.port || 3000;
-app.listen(port);
-console.log('Listening on port ' + port);
+app.listen(app.get('port'), function() {
+  console.log('Listening on port ' + app.get('port'));
+});

@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var helmet = require('helmet');
 var properties = require('./package.json')
 var app = express();
 
@@ -13,38 +14,54 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 app.set('port', (process.env.PORT || 3000));
+app.set('trust proxy', true);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
+app.use(helmet());
 
 // ---------------------------------------------------------------------------
 // Internal stuff
 // ---------------------------------------------------------------------------
 
-// Initial data
-var bottleId = 0;
-var cellarId = 0;
-var cellars = [
-  {
-    id: cellarId++,
-    name: "Jeremy's cellar",
-    bottles: [
-      { id: bottleId++, name: "Saint Emilion", price: 12.89 }
-    ]
-  }
-];
+// Constants
+var DEFAULT_CELLAR = {
+  id: 0,
+  name: "Jeremy's cellar",
+  bottles: [
+    { id: 0, name: "Saint Emilion", price: 12.89 }
+  ]
+};
 
-// Get a cellar from its ID
-function getCellar(id) {
+// Storage
+var bottleId, cellarId, cellars;
+
+// Reset data
+function reset() {
+  bottleId = 1;
+  cellarId = 1;
+  cellars = [ DEFAULT_CELLAR ];
+}
+
+// Get the index of a cellar from its ID
+function getCellarIndex(id) {
   id = parseInt(id);
   for (var i = 0; i < cellars.length; i++) {
     if (cellars[i].id === id) {
-      return cellars[i];
+      return i;
     }
   }
+  return -1;
+}
 
-  return undefined;
+// Get a cellar from its ID
+function getCellar(id) {
+  var index = getCellarIndex(id);
+  if (index >= 0) {
+    return cellars[index];
+  }
+  return null;
 }
 
 // Get the index of a bottle in a cellar from its ID
@@ -55,7 +72,6 @@ function getBottleIndex(cellar, id) {
       return i;
     }
   }
-
   return -1;
 }
 
@@ -63,15 +79,21 @@ function getBottleIndex(cellar, id) {
 function findBottle(id) {
   id = parseInt(id);
   for (var i = 0; i < cellars.length; i++) {
-    for (var j = 0; j < cellars[i].bottles.length; j++) {
-      if (cellars[i].bottles[j].id === id) {
+    var index = getBottleIndex(cellars[i], id);
+    if (index >= 0) {
         return {
           cellar: cellars[i],
-          bottleIndex: j
+          bottleIndex: index;
         };
-      }
     }
   }
+  return null;
+}
+
+// Emit 404 error
+function notFound(res) {
+  res.status(404);
+  res.type('txt').send('404 not found');
 }
 
 // Send a 500 error code to a given response
@@ -87,7 +109,13 @@ function invalidRequest(res) {
 // GET /
 //  Get a simple string
 app.get('/', function(req, res) {
-  res.send(properties.description + ' v' + properties.version);
+  res.type('txt').send(properties.description + ' v' + properties.version);
+});
+
+// POST /api/reset
+//  Resets the server data
+app.post('/api/reset', function(req, res) {
+  reset();
 });
 
 // GET /api/cellars
@@ -107,8 +135,18 @@ app.get('/api/cellars/:id', function(req, res) {
   if (cellar) {
     res.jsonp(cellar);
   } else {
-    res.status(404);
-    res.type('txt').send('404 not found');
+    notFound(res);
+  }
+});
+
+// DELETE /api/cellars/:id
+//  Remove a cellar
+app.delete('/api/cellars/:id', function(req, res) {
+  var index = getCellarIndex(req.params.id);
+  if (index >= 0) {
+    cellars.splice(index, 1);
+  } else {
+    invalidRequest(res);
   }
 });
 
@@ -138,7 +176,6 @@ app.post('/api/cellars/:id/bottles', function(req, res) {
       return;
     }
   }
-
   invalidRequest(res);
 });
 
@@ -154,11 +191,11 @@ app.delete('/api/cellars/:id/bottles/:bottleId', function(req, res) {
       return;
     }
   }
-
   invalidRequest(res);
 });
 
 // Start server
+reset();
 app.listen(app.get('port'), function() {
   console.log('Listening on port ' + app.get('port'));
 });

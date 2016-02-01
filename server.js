@@ -83,7 +83,7 @@ function findBottle(id) {
     if (index >= 0) {
         return {
           cellar: cellars[i],
-          bottleIndex: index;
+          bottleIndex: index
         };
     }
   }

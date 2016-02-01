@@ -114,7 +114,7 @@ app.get('/', function(req, res) {
   res.type('txt').send(properties.description + ' v' + properties.version);
 });
 
-// POST /api/reset
+// GET /api/reset
 //  Resets the server data
 app.post('/api/reset', function(req, res) {
   reset();

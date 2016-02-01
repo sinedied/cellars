@@ -164,7 +164,7 @@ app.post('/api/cellars', function(req, res) {
 //  Add a new bottle to a cellar id
 //  Parameter: { name: 'name', price: 10 }
 app.post('/api/cellars/:id/bottles', function(req, res) {
-  if (req.body && req.body.cellarId >= 0) {
+  if (req.body && req.params.id >= 0) {
     var cellar = getCellar(req.params.id);
     if (cellar && req.body.name && req.body.price) {
       var bottle = { id: bottleId++, name: req.body.name, price: req.body.price };

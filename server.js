@@ -118,7 +118,7 @@ app.get('/', function(req, res) {
 //  Resets the server data
 app.post('/api/reset', function(req, res) {
   reset();
-  responseOk();
+  responseOk(res);
 });
 
 // GET /api/cellars
@@ -148,7 +148,7 @@ app.delete('/api/cellars/:id', function(req, res) {
   var index = getCellarIndex(req.params.id);
   if (index >= 0) {
     cellars.splice(index, 1);
-    responseOk();
+    responseOk(res);
   } else {
     invalidRequest(res);
   }

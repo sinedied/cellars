@@ -1,22 +1,14 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 var properties = require('./package.json')
+
 var app = express();
-
-// Allow CORS
-var allowCrossDomain = function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.setHeader('Access-Control-Expose-Headers', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*, Content-Type');
-  next();
-};
-
 app.set('port', (process.env.PORT || 3000));
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(allowCrossDomain);
 
 // ---------------------------------------------------------------------------
 // Internal stuff

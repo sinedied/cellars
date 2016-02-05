@@ -159,6 +159,17 @@ app.post('/api/cellars', function(req, res) {
   }
 });
 
+// GET /api/cellars/:id/bottles
+//  Get the bottles of an existing cellar id
+app.get('/api/cellars/:id/bottles', function(req, res) {
+  var cellar = getCellar(req.params.id);
+  if (cellar) {
+    res.jsonp(cellar.bottles);
+  } else {
+    notFound(res);
+  }
+});
+
 // POST /api/cellars/:id/bottles
 //  Add a new bottle to a cellar id
 //  Parameter: { name: 'name', price: 10 }

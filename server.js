@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var compression = require('compression');
 var properties = require('./package.json')
@@ -11,6 +12,7 @@ app.use(compression());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ---------------------------------------------------------------------------
 // Internal stuff

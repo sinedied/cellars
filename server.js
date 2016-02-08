@@ -1,11 +1,13 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var compression = require('compression');
 var properties = require('./package.json')
 
 var app = express();
 app.set('port', (process.env.PORT || 3000));
 
+app.use(compression());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

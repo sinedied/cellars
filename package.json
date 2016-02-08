@@ -1,6 +1,6 @@
 {
   "name": "cellars",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Cellars API Training",
   "main": "server.js",
   "scripts": {
@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "body-parser": "^1.14.2",
+    "compression": "^1.6.1",
     "cors": "^2.7.1",
     "express": "^4.13.4"
   },

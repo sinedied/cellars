@@ -1,6 +1,6 @@
 {
   "name": "cellars",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Cellars API Training",
   "main": "server.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "compression": "^1.6.1",
     "cookie-parser": "^1.4.1",
     "cors": "^2.7.1",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "morgan": "^1.6.1"
   },
   "engines": {
     "node": "0.12.7"

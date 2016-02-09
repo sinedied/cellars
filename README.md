@@ -8,6 +8,7 @@ Route                                    | Description
 -----------------------------------------|------------------------------------
 GET    /                                 | Get server info
 GET    /api/reset                        | Reset server data
+GET    /api/logs                         | Get server request logs
 GET    /api/cellars                      | Get the list of existings cellars
 POST   /api/cellars                      | Create a new cellar, ex: `{ name: 'name' }`
 GET    /api/cellars/:id                  | Get the detail of an existing cellar

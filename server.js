@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var compression = require('compression');
+var morgan = require("morgan");
 var properties = require('./package.json')
 
 var app = express();
@@ -13,6 +14,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan(
+  ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] headers: :headers',
+  { stream: { write: logRequest } }
+));
+
+morgan.token('headers', function(req) {
+  return JSON.stringify(req.headers, null, 2)
+})
 
 // ---------------------------------------------------------------------------
 // Internal stuff
@@ -28,7 +37,7 @@ var DEFAULT_CELLAR = {
 };
 
 // Storage
-var bottleId, cellarId, cellars;
+var bottleId, cellarId, cellars, logs = '';
 
 // Reset data
 function reset() {
@@ -100,6 +109,11 @@ function responseOk(res) {
   res.json({ success: true });
 }
 
+// Simple request logger
+function logRequest(str) {
+  logs = str + logs;
+}
+
 // ---------------------------------------------------------------------------
 // Endpoints
 // ---------------------------------------------------------------------------
@@ -112,9 +126,15 @@ app.get('/', function(req, res) {
 
 // GET /api/reset
 //  Resets the server data
-app.post('/api/reset', function(req, res) {
+app.get('/api/reset', function(req, res) {
   reset();
   responseOk(res);
+});
+
+// GET /api/logs
+//  Gets the request logs
+app.get('/api/logs', function(req, res) {
+  res.type('txt').send(logs);
 });
 
 // GET /api/cellars

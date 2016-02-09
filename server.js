@@ -15,13 +15,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan(
-  ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] headers: :headers',
+  'common',
   { stream: { write: logRequest } }
 ));
-
-morgan.token('headers', function(req) {
-  return JSON.stringify(req.headers, null, 2)
-})
 
 // ---------------------------------------------------------------------------
 // Internal stuff

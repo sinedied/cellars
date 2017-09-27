@@ -4,7 +4,9 @@
   "description": "Cellars API Training",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "contributors": [
     {
@@ -20,7 +22,8 @@
     "cookie-parser": "^1.4.1",
     "cors": "^2.7.1",
     "express": "^4.13.4",
-    "morgan": "^1.6.1"
+    "morgan": "^1.6.1",
+    "snyk": "^1.41.1"
   },
   "engines": {
     "node": "0.12.7"
@@ -29,5 +32,6 @@
     "type": "git",
     "url": "https://github.com/sinedied/cellars"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
